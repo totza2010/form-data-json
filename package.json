@@ -1,42 +1,22 @@
 {
-  "license": "MIT",
-  "name": "form-data-json-convert",
-  "description": "Convert html forms into json or fill forms from json.",
+  "name": "form-data-json",
+  "version": "1.0.0",
+  "description": "![Form Data Json Logo](https://brainfoolong.github.io/form-data-json/img/logo-readme-github.png)",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/brainfoolong/form-data-json.git"
+    "url": "git+https://github.com/totza2010/form-data-json.git"
   },
-  "version": "2.2.1",
-  "scripts": {
-    "dist": "node build/dist.js"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.22.9",
-    "@babel/plugin-proposal-class-properties": "^7.18.6",
-    "@babel/plugin-proposal-private-methods": "^7.18.6",
-    "@babel/preset-env": "^7.22.9",
-    "babel-preset-minify": "^0.5.2"
-  },
+  "author": "",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/brainfoolong/form-data-json/issues"
+    "url": "https://github.com/totza2010/form-data-json/issues"
   },
-  "homepage": "https://github.com/brainfoolong/form-data-json",
-  "main": "dist/form-data-json.min.js",
-  "directories": {
-    "test": "docs/tests",
-    "example": "example"
-  },
-  "files": [
-    "dist/*",
-    "src/*",
-    "*.md"
-  ],
-  "keywords": [
-    "javascript",
-    "forms",
-    "json",
-    "input",
-    "serializejson"
-  ],
-  "author": "BrainFooLong"
+  "homepage": "https://github.com/totza2010/form-data-json#readme"
 }
