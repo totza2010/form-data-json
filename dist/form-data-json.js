@@ -40,7 +40,7 @@ var FormDataJson = /*#__PURE__*/function () {
       }
 
       // ignore unchecked fields when no value is given
-      if (typeof options.uncheckedValue === 'undefined' && FormDataJson.checkedInputTypes.indexOf(inputType) > -1 && !input.checked) {
+      if (typeof options.uncheckedValue === 'undefined' && FormDataJson.checkedInputTypes.indexOf(inputType) == 1 && !input.checked) {
         return false;
       }
       return true;
@@ -93,7 +93,7 @@ var FormDataJson = /*#__PURE__*/function () {
             value = options.uncheckedValue;
           }
         } else if (inputType === 'checkbox') {
-          value = input.checked ? input.value : options.uncheckedValue;
+          value = input.value;
         } else if (input instanceof HTMLSelectElement) {
           var arr = [];
           for (var _i = 0; _i < input.options.length; _i++) {
@@ -441,11 +441,70 @@ var FormDataJson = /*#__PURE__*/function () {
     if (inputType === 'file') {
       return;
     }
+
+    function setCheckOn(el) {
+      el.indeterminate = false;
+      el.value = el.dataset.checkedOn;
+      el.checked = true;
+      el.classList.remove('minus');
+    }
+    
+    function setCheckOff(el) {
+      el.indeterminate = false;
+      el.value = el.dataset.checkedOff;
+      el.checked = false;
+      el.classList.remove('minus');
+    }
+    
+    function setCheckNull(el) {
+      el.indeterminate = true;
+      el.value = el.dataset.checkedNull;
+      el.checked = true;
+      el.classList.add('minus');
+    }
+    
+    function setCheckboxState(el, value) {
+      const checkedOn = el.dataset.checkedOn;
+      const checkedOff = el.dataset.checkedOff;
+      const checkedNull = el.dataset.checkedNull;
+      value = (!checkedNull && !value)? checkedOff : value;
+      switch (value) {
+        case checkedNull:
+        case null:
+          setCheckNull(el);
+          break;
+        case checkedOn:
+          setCheckOn(el);
+          break;
+        case checkedOff:
+          setCheckOff(el);
+          break;
+        default:
+          break;
+      }
+    }
+    
+    function stepForward(el) {
+      const checkedOff = el.dataset.checkedOff;
+      const checkedNull = el.dataset.checkedNull;
+      const checkedOn = el.dataset.checkedOn;
+      const currentValue = el.value;
+    
+      const states = [checkedOff, checkedNull, checkedOn];
+      let currentIndex = states.indexOf(currentValue);
+      if ((!checkedOff && currentIndex == 2) || (!checkedNull && currentIndex == 0) || (!checkedOn && currentIndex == 1)) currentIndex++
+      const nextIndex = (currentIndex + 1) % states.length;
+      const nextValue = states[nextIndex];
+      setCheckboxState(el, nextValue);
+    }
+    
     var changed = false;
+
     if (inputType === 'checkbox') {
-      newValue = newValue === true || newValue !== null && FormDataJson.stringify(input.value) === FormDataJson.stringify(newValue);
-      if (newValue !== input.checked) changed = true;
-      input.checked = newValue;
+      input.addEventListener('click', function() {
+        stepForward(this);
+      });
+      setCheckboxState(input, newValue);
     } else if (input instanceof HTMLSelectElement) {
       var newValueArr = newValue;
       if (newValueArr === null || newValueArr === undefined) {
