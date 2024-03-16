@@ -1,3 +1,6 @@
 {
-    "name": "totza2010/form-data-json"
+    "name": "totza2010/form-data-json",
+    "require": {
+        "icanhazstring/composer-unused": "1.*"
+    }
 }
